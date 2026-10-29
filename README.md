@@ -1,59 +1,138 @@
-# AngularStore
+# Односторінковий застосунок «Angular Store» (Лабораторна робота №3)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.2.
+Сучасний SPA-застосунок (Single Page Application) каталогу техніки та периферії, розроблений на фреймворку **Angular 17+** із застосуванням компонентної моделі **Standalone Components**, реактивного керування станом на базі **Angular Signals**, реактивних форм із валідацією, оптимізованого рендерингу та взаємодії з локальним REST API.
 
-## Development server
+---
 
-To start a local development server, run:
+## 📋 Зміст
 
-```bash
-ng serve
+1. [Огляд функціоналу](#-огляд-функціоналу)
+2. [Архітектура та реалізовані вимоги](#-архітектура-та-реалізовані-вимоги)
+3. [Структура директорій](#-структура-директорій)
+4. [Вимоги для запуску](#-вимоги-для-запуску)
+5. [Покроковий запуск проєкту](#-покроковий-запуск-проєкту)
+6. [Тестування (Unit Tests)](#-тестування-unit-tests)
+
+---
+
+## 🎯 Огляд функціоналу
+
+- **Каталог товарів:** перегляд переліку карток товарів із ціною, фотографією, категорією та наявністю на складі.
+- **Миттєва фільтрація:** фільтрація списку товарів за категоріями (`Peripherals`, `Displays`, `Audio`) за допомогою сигналів без потреби перезавантаження сторінки або повторних запитів.
+- **Додавання товару (CRUD: Create):** реактивна форма з перевіркою коректності введених даних, блокуванням відправки невалідних значень та автоматичним збереженням у файл бази даних `db.json`.
+- **Деталі товару (CRUD: Read One):** перегляд детального опису та характеристик обраного товару за динамічним маршрутом `/products/:id` з індикатором завантаження.
+- **Видалення товару (CRUD: Delete):** видалення запису з бази даних із миттєвим оновленням інтерфейсу.
+- **HTTP Interceptor:** централізоване логування всіх запитів та помилок у браузерну консоль.
+
+---
+
+## 🏗️ Архітектура та реалізовані вимоги
+
+- **Standalone Components:** проєкт не містить модулів `NgModule`. Усі компоненти (`AppComponent`, `HomeComponent`, `ProductsListComponent`, `ProductDetailsComponent`) використовують `standalone: true`.
+- **Angular Signals:**
+  - `signal()` для зберігання та модифікації локального стану (`products`, `selectedCategory`, `loading`, `error`).
+  - `computed()` для декларативної фільтрації товарів (`filteredProducts`).
+- **Оптимізація рендерингу:**
+  - Стратегія `ChangeDetectionStrategy.OnPush` на списку товарів.
+  - Контрольний синтаксис керування потоком `@for (...; track p.id)` замість застарілого `*ngFor`.
+  - Оптимізація виявлення змін `provideZoneChangeDetection({ eventCoalescing: true })`.
+- **Маршрутизація з Component Input Binding:**
+  - Налаштовано маршрути `''` (Home), `'products'` (Каталог), `'products/:id'` (Деталі).
+  - Використано `withComponentInputBinding()`, що автоматично передає параметр маршруту `:id` безпосередньо у `@Input() id`.
+- **Реактивні форми (Reactive Forms):**
+  - Побудовано через `FormBuilder` та `FormGroup`.
+  - Валідація: обов'язковість назви (`Validators.required`, `Validators.minLength(3)`), валідація ціни (`Validators.min(1)`), вибір обов'язкової категорії.
+  - Повідомлення про помилки відображаються лише після взаємодії з полем (`touched && invalid`).
+- **Модульне тестування:**
+  - Використано `TestBed`, `provideHttpClientTesting()` та `HttpTestingController`.
+  - 100% проходження тестів (5 файлів специфікацій, 7 тестів).
+
+---
+
+## 📂 Структура директорій
+
+```text
+angular-store/
+├── db.json                                  # Локальна база даних JSON Server
+├── package.json                             # Скрипти запуску та залежності
+├── tsconfig.json                            # Конфігурація TypeScript
+├── src/
+│   ├── index.html                           # Головний HTML-файл сторінки
+│   ├── main.ts                              # Точка входу в застосунок
+│   ├── styles.css                           # Загальні стилі
+│   └── app/
+│       ├── app.config.ts                    # Конфігурація провайдерів (Router, HttpClient, Interceptor)
+│       ├── app.routes.ts                    # Опис маршрутів SPA
+│       ├── app.ts                           # Кореневий Standalone-компонент із навігацією
+│       ├── app.html                         # Шаблон навігаційної панелі
+│       ├── app.spec.ts                      # Unit-тест кореневого компонента
+│       ├── pages/
+│       │   ├── home/                        # Стартова сторінка
+│       │   │   ├── home.ts
+│       │   │   ├── home.html
+│       │   │   └── home.spec.ts
+│       │   ├── products-list/               # Каталог товарів + форма + фільтр
+│       │   │   ├── products-list.ts
+│       │   │   ├── products-list.html
+│       │   │   └── products-list.spec.ts
+│       │   └── product-details/             # Детальна сторінка товару за :id
+│       │       ├── product-details.ts
+│       │       ├── product-details.html
+│       │       └── product-details.spec.ts
+│       └── services/
+│           ├── products.ts                  # Сервіс CRUD-операцій з HttpClient
+│           ├── products.spec.ts             # Unit-тести HTTP-запитів сервісу
+│           └── logging.interceptor.ts       # Інтерцептор для моніторингу запитів
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## ⚙️ Вимоги для запуску
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **Node.js:** версія `18.x` або вище
+- **npm:** версія `9.x` або вище
+- **Браузер:** Google Chrome / Firefox / Edge
 
+---
+
+## 🚀 Покроковий запуск проєкту
+
+### 1. Встановлення залежностей
+Перед першим запуском перейдіть у директорію проєкту та встановіть пакунки:
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
+### 2. Запуск локального сервера бази даних (Термінал 1)
+У першому вікні термінала запустіть REST API на базі `json-server`:
 ```bash
-ng generate --help
+npm run server
+```
+*Сервер запуститься за адресою `http://localhost:3000/products` і відстежуватиме зміни у файлі `db.json`.*
+
+### 3. Запуск веб-застосунку Angular (Термінал 2)
+У другому вікні термінала виконайте збірку та старт dev-сервера:
+```bash
+npx ng serve -o
+```
+*Застосунок автоматично відкриється у вашому браузері за адресою `http://localhost:4200`.*
+
+---
+
+## 🧪 Тестування (Unit Tests)
+
+Для запуску всіх модульних тестів відкрийте окремий термінал та виконайте:
+```bash
+npm test
 ```
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
+### Очікуваний результат:
+```text
+Test Files  5 passed (5)
+Tests       7 passed (7)
+PASS Waiting for file changes...
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Усі тести налаштовані на ізольоване тестування без виконання реальних запитів до мережі завдяки використанню `HttpTestingController`.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---

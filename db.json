@@ -1,0 +1,68 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "title": "Механічна клавіатура Keychron K2",
+      "price": 3800,
+      "category": "Peripherals",
+      "stock": 7,
+      "imageUrl": "https://images.unsplash.com/photo-1589578228447-e1a4e481c6c8?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
+      "description": "Бездротова механічна клавіатура 75% формату з RGB-підсвіткою та перемикачами Gateron Brown."
+    },
+    {
+      "id": "2",
+      "title": "Миша Logitech MX Master 3S",
+      "price": 4200,
+      "category": "Peripherals",
+      "stock": 14,
+      "imageUrl": "https://images.unsplash.com/photo-1686554825554-24adfcf5406a?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
+      "description": "Ергономічна бездротова миша з тихими перемикачами та електромагнітним коліщатком MagSpeed."
+    },
+    {
+      "id": "3",
+      "title": "Монітор Dell UltraSharp 27 4K",
+      "price": 18500,
+      "category": "Displays",
+      "stock": 4,
+      "imageUrl": "https://images.unsplash.com/photo-1612814824743-c760091da7f6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
+      "description": "Професійний IPS монітор з роздільною здатністю 4K UHD, підтримкою HDR400 та передачею кольору 99% sRGB."
+    },
+    {
+      "id": "4",
+      "title": "Монітор LG UltraGear 34 Curved",
+      "price": 24000,
+      "category": "Displays",
+      "stock": 2,
+      "imageUrl": "https://images.unsplash.com/photo-1634571799202-619a5d4c086e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
+      "description": "Вигнутий UltraWide монітор з частотою 160Hz, матрицею Nano IPS та часом відгуку 1 мс."
+    },
+    {
+      "id": "5",
+      "title": "Навушники Sony WH-1000XM5",
+      "price": 14200,
+      "category": "Audio",
+      "stock": 8,
+      "imageUrl": "https://images.unsplash.com/photo-1612858249816-5a91a9fb9886?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
+      "description": "Повнорозмірні бездротові навушники з передовим активним шумозаглушенням і звучанням Hi-Res Audio."
+    },
+    {
+      "title": "AirPods Pro Max",
+      "price": 11000,
+      "category": "Audio",
+      "stock": 5,
+      "imageUrl": "https://images.unsplash.com/photo-1628116709703-c1c9ad550d36?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
+      "description": "Преміальні бездротові навушники закритого типу з активним шумозаглушенням, режимом проникності та підтримкою просторового аудіо.",
+      "id": "GasEeEVvtGY"
+    },
+    {
+      "title": "keyboard",
+      "price": 2298,
+      "category": "Peripherals",
+      "stock": 333,
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1683543124615-fb42e42c6201?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
+      "description": "wasd",
+      "id": "Rx_bmXMSt1g"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
